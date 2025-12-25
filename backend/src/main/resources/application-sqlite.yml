@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:file:../databases/orders.db
+    driver-class-name: org.sqlite.JDBC
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+ 
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
