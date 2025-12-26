@@ -1,5 +1,9 @@
 package com.lynx.orders.repository;
 
-public class OrderRepository {
-    
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.lynx.orders.entity.Order;
+
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
 }
