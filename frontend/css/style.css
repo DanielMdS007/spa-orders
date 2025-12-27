@@ -1,0 +1,12 @@
+body {
+  font-family: Arial;
+  padding: 20px;
+}
+
+.menu a {
+  display: block;
+  padding: 12px;
+  margin: 10px 0;
+  background: #eee;
+  text-decoration: none;
+}
