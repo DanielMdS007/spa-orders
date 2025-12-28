@@ -51,7 +51,7 @@ public class PaymentService {
         }
         
         // Verify if the order can be paid with the given amount, if yes update order status to PAID
-        Double orderTotal = orderItemRepository.calculateOrderTotal(order.getId());
+         Integer orderTotal = orderItemRepository.calculateOrderTotal(order.getId());
 
         if (orderTotal == null || orderTotal <= 0) {
             throw new RuntimeException("Order has no items.");

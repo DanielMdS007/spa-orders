@@ -15,6 +15,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     FROM OrderItem oi
     WHERE oi.order.id = :orderId
     """)
-    Double calculateOrderTotal(@Param("orderId") Long orderId);
+     Integer calculateOrderTotal(@Param("orderId") Long orderId);
 
 }
