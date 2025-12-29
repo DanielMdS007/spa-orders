@@ -62,6 +62,8 @@ function renderOrders() {
     const showAddItem = order.status !== 'PAID' && order.status !== 'CANCELLED';
     const showCancel = order.status !== 'PAID' && order.status !== 'CANCELLED';
     
+    const itemCount = order.itemCount || 0;
+    
     return `
       <div class="col">
         <div class="card h-100">
@@ -76,7 +78,7 @@ function renderOrders() {
             </p>
             
             <p class="card-text text-muted mb-2">
-              <small>Items: ${order.itemCount || 0}</small>
+              <small>Items: ${itemCount}</small>
             </p>
             
             <p class="card-text mb-3">
@@ -88,7 +90,7 @@ function renderOrders() {
             </p>
             
             <div class="d-flex gap-2 flex-wrap">
-              <a href="details.html?id=${order.id}" class="btn btn-sm btn-primary" style="background-color: #e67e22; border: none;">
+              <a href="view.html?id=${order.id}" class="btn btn-sm btn-primary" style="background-color: #e67e22; border: none;">
                 View Details
               </a>
               ${showAddItem ? `
@@ -108,6 +110,7 @@ function renderOrders() {
     `;
   }).join('');
 }
+
 
 async function cancelOrder(orderId) {
   if (!confirm(`Are you sure you want to cancel order #${orderId}?`)) {
@@ -135,8 +138,6 @@ function getStatusBadge(status) {
   const statusColors = {
     'NEW': 'bg-primary',
     'PAID': 'bg-success',
-    'PROCESSING': 'bg-warning text-dark',
-    'COMPLETED': 'bg-success',
     'CANCELLED': 'bg-danger'
   };
   

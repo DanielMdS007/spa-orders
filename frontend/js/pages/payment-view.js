@@ -33,7 +33,7 @@ function displayPaymentDetails(payment) {
   
   // Display payment information
   document.getElementById('payment-id').textContent = `#${payment.id}`;
-  document.getElementById('order-id').innerHTML = `<a href="../orders/details.html?id=${payment.order_id}">#${payment.order_id}</a>`;
+  document.getElementById('order-id').innerHTML = `<a href="../orders/view.html?id=${payment.order_id}">#${payment.order_id}</a>`;
   document.getElementById('paid-at').textContent = formatDateTime(payment.paidAt);
   document.getElementById('payment-amount').textContent = formatPrice(payment.amount_cents);
   
@@ -41,7 +41,7 @@ function displayPaymentDetails(payment) {
   displayAdditionalInfo(payment);
   
   // Update view order button
-  document.getElementById('view-order-btn').href = `../orders/details.html?id=${payment.orderId}`;
+  document.getElementById('view-order-btn').href = `../orders/view.html?id=${payment.order_id}`;
   
   // Show content
   hideLoading();
@@ -69,14 +69,6 @@ function displayAdditionalInfo(payment) {
     `;
   }
   
-  if (payment.notes) {
-    infoHtml += `
-      <div class="mb-2">
-        <strong>Notes:</strong> ${payment.notes}
-      </div>
-    `;
-  }
-  
   if (infoHtml) {
     additionalInfoDiv.innerHTML = infoHtml;
   } else {
@@ -88,7 +80,6 @@ function getStatusBadge(status) {
   const statusColors = {
     'PAID': 'bg-success',
     'PENDING': 'bg-warning text-dark',
-    'REFUNDED': 'bg-info',
     'CANCELLED': 'bg-danger'
   };
   

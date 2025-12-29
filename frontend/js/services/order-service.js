@@ -18,9 +18,13 @@ const OrderService = {
     return await ApiService.post(`/orders/${orderId}`, itemData);
   },
 
+  //DELETE order item
+  async deleteItem(orderId, itemId) {
+    return await ApiService.deleteHttp(`/orders/${orderId}/delete/${itemId}`);
+  },
   //PATCH order status
   async cancel(orderId) {
     return await ApiService.patch(`/orders/${orderId}/cancel`);
   }
-
+  //Thought about adding a delete method but decided against, since the purpose of the status cancelled is to keep a record of all orders (At least is what I think).
 };

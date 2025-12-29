@@ -20,7 +20,6 @@ async function handleSubmit(event) {
   const orderId = parseInt(document.getElementById('order-id').value);
   const amountInReais = parseFloat(document.getElementById('amount').value);
   const method = document.getElementById('method').value;
-  const notes = document.getElementById('notes').value;
   
   if (!orderId || isNaN(orderId)) {
     alert('Please enter a valid Order ID');
@@ -41,8 +40,7 @@ async function handleSubmit(event) {
     'CREDIT_CARD': 'CARD',
     'DEBIT_CARD': 'CARD',
     'PIX': 'PIX',
-    'CASH': 'BOLETO',
-    'BANK_TRANSFER': 'BOLETO'
+    'BOLETO': 'BOLETO',
   };
   
   const backendMethod = methodMap[method];
@@ -61,12 +59,12 @@ async function handleSubmit(event) {
     paid_at: new Date().toISOString()
   };
   
-  if (notes && notes.trim()) {
-    paymentData.notes = notes.trim();
-  }
-  
   try {
     console.log('Sending payment data:', paymentData);
+    
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processing...';
     
     const createdPayment = await PaymentService.create(paymentData);
     
@@ -94,5 +92,9 @@ async function handleSubmit(event) {
     }
     
     alert(errorMessage);
+    
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = false;
+    submitBtn.textContent = '💳 Create Payment';
   }
 }

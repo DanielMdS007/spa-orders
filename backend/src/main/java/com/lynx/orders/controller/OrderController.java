@@ -3,6 +3,7 @@ package com.lynx.orders.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,10 +54,20 @@ public class OrderController {
     public OrderItem addOrderItem(@PathVariable Long id, @RequestBody OrderItem request){
         return orderService.addItemToOrder(id, request.getProductId(), request.getQuantity());
     }
-    
+
+    //DELETE order item
+    @DeleteMapping("/{orderId}/delete/{itemId}")
+    public void deleteOrderItem(@PathVariable Long orderId, @PathVariable Long itemId){
+        orderService.deleteItemFromOrder(orderId, itemId);
+    }
+    //Change the status of an order to "CANCELLED"
     @PatchMapping("/{id}/cancel")
     public Order cancelOrder(@PathVariable Long id) {
         return orderService.cancelOrder(id);
     }
-
+    //Made the route but I won't apply on the frontend, since I don't know if it's a good practice to delete orders.
+    @DeleteMapping("/{id}/delete")
+    public void deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
+    }
 }

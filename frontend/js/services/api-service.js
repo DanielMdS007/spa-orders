@@ -62,5 +62,55 @@ const ApiService = {
     if (!response.ok) throw new Error('Request failed');
     const text = await response.text();
     return text ? JSON.parse(text) : { success: true };
+  },
+
+  async delete(path) {
+    try {
+      const response = await fetch(API_CONFIG.baseURL + path, {
+        method: 'POST',
+        headers: API_CONFIG.headers
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP Error ${response.status}`);
+      }
+      
+      return { success: true };
+      
+    } catch (error) {
+      console.error('Error in DELETE request:', error);
+      throw error;
+    }
+  },
+
+   async deleteHttp(path) {
+    try {
+      console.log('DELETE HTTP Request to:', API_CONFIG.baseURL + path);
+      
+      const response = await fetch(API_CONFIG.baseURL + path, {
+        method: 'DELETE',
+        headers: API_CONFIG.headers
+      });
+      
+      console.log('DELETE Response status:', response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('DELETE Error response:', errorText);
+        throw new Error(`HTTP Error ${response.status}: ${errorText}`);
+      }
+      
+      if (response.status === 204) {
+        return { success: true };
+      }
+      
+      const text = await response.text();
+      return text ? JSON.parse(text) : { success: true };
+      
+    } catch (error) {
+      console.error('Error in DELETE HTTP request:', error);
+      throw error;
+    }
   }
+
 };

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,35 +49,39 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
     
-    /*NOT REQUIRED FOR THE EVALUATION
-    I wanted to add these methods but I think I will waste time since it's techinically not required for the evaluation
-    maybe later if I want to improve the project in the future
     //PATCH
     @PatchMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+    public ResponseEntity<Product> updatePartial(
+        @PathVariable Long id,
+            @RequestBody Product patch) {
+
         Product product = productService.findById(id);
         if (product == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+            throw new RuntimeException("Product not found");
         }
-        updates.forEach((key, value) -> {
-            switch (key) {
-                case "name" -> product.setName((String) value);
-                case "category" -> product.setCategory((String) value);
-                case "price" -> product.setPrice(((Number) value).doubleValue());
-                case "active" -> product.setActive(((Number) value).intValue());
-            }
-        });
-        
-        return productService.update(product);
+
+        if (patch.getName() != null) {
+            product.setName(patch.getName());
+        }
+        if (patch.getCategory() != null) {
+            product.setCategory(patch.getCategory());
+        }
+        if (patch.getPrice() != null) {
+            product.setPrice(patch.getPrice());
+        }
+        if (patch.getActive() != null) {
+            product.setActive(patch.getActive());
+        }
+
+        Product saved = productService.update(product);
+        return ResponseEntity.ok(saved);
     }
+    
+
     //DELETE
-    @DeleteMapping("/{id}") 
-    public void delete(@PathVariable Long id){
-        try {
-            productService.delete(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
-        }
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        productService.delete(id);
+        return ResponseEntity.noContent().build();
     }
-    */
 }

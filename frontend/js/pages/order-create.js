@@ -212,7 +212,7 @@ async function createOrder() {
   try {
     const createdOrder = await OrderService.create(orderData);
     alert(`Order #${createdOrder.id} created successfully!`);
-    window.location.href = `details.html?id=${createdOrder.id}`;
+    window.location.href = `view.html?id=${createdOrder.id}`;
   } catch (error) {
     console.error('Error creating order:', error);
     alert('Error creating order. Please check if all products are active and try again.');

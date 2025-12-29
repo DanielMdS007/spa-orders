@@ -27,7 +27,7 @@ public class Product {
     private Integer price;
 
     @Column(name = "active", nullable = false)
-    private int active = 1;//default 1
+    private Integer active = 1;//default 1
 
     public Long getId() {
         return id;
@@ -61,11 +61,11 @@ public class Product {
         this.price = price;
     }
 
-    public int getActive() {
+    public Integer getActive() {
         return active;
     }
 
-    public void setActive(int active) {
+    public void setActive(Integer active) {
         this.active = active;
     }
 

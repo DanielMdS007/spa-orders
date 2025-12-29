@@ -27,4 +27,13 @@ const ProductService = {
   async create(product) {
     return await ApiService.post('/products', product);
   },
+
+  //DELETE
+  async delete(id) {
+    return await ApiService.delete(`/products/delete/${id}`);
+  },
+  //PATCH
+  async patch(id, productData) {
+    return await ApiService.patch(`/products/${id}`, productData);
+  }
 };

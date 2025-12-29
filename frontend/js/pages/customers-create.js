@@ -44,8 +44,13 @@ form.addEventListener('submit', async (e) => {
 
     // Show success modal
     document.getElementById('customer-id').textContent = `#${customer.id}`;
-    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-    successModal.show();
+    
+    alert(`Customer registered successfully!\nCustomer ID: #${customer.id}`);
+    window.location.href = 'list.html';
+
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Register Customer';
 
   } catch (error) {
     console.error('Error creating customer:', error);
@@ -56,7 +61,7 @@ form.addEventListener('submit', async (e) => {
     } else {
       alert('Error registering customer. Please try again.');
     }
-  } finally {
+    
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = false;
     submitBtn.textContent = 'Register Customer';

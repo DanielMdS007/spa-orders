@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await validateOrderStatus();
   
   document.getElementById('order-number').textContent = `#${orderId}`;
-  document.getElementById('back-button').href = `details.html?id=${orderId}`;
+  document.getElementById('back-button').href = `view.html?id=${orderId}`;
   
   loadProducts();
   setupEventListeners();
@@ -40,13 +40,13 @@ async function validateOrderStatus() {
     
     if (order.status === 'PAID') {
       alert('Cannot add items to a paid order');
-      window.location.href = `details.html?id=${orderId}`;
+      window.location.href = `view.html?id=${orderId}`;
       return;
     }
     
     if (order.status === 'CANCELLED') {
       alert('Cannot add items to a cancelled order');
-      window.location.href = `details.html?id=${orderId}`;
+      window.location.href = `view.html?id=${orderId}`;
       return;
     }
   } catch (error) {
@@ -237,7 +237,7 @@ async function addItemsToOrder() {
     }
     
     alert(`${cart.length} item(s) added to order #${orderId} successfully!`);
-    window.location.href = `details.html?id=${orderId}`;
+    window.location.href = `view.html?id=${orderId}`;
     
   } catch (error) {
     console.error('Error adding items:', error);

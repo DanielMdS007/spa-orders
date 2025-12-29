@@ -1,2 +1,2 @@
-This txt exists so the folder databases will the commit to github
+This txt exists so the folder databases will commit to github
 the folder needs to exists when you want to open the API

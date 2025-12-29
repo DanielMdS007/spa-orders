@@ -60,8 +60,16 @@ function displayOrderItems(items) {
   
   let totalAmount = 0;
   
+  const canDeleteItems = currentOrder.status !== 'PAID' && currentOrder.status !== 'CANCELLED';
+  
   tableBody.innerHTML = items.map(item => {
     totalAmount += item.total;
+    
+    const deleteButton = canDeleteItems 
+      ? `<button class="btn btn-sm btn-danger" onclick="confirmDeleteItem(${item.id})" title="Delete item">
+           🗑️
+         </button>`
+      : '';
     
     return `
       <tr>
@@ -70,12 +78,34 @@ function displayOrderItems(items) {
         <td class="text-center">${item.quantity}</td>
         <td class="text-end">${formatPrice(item.unitPrice)}</td>
         <td class="text-end"><strong>${formatPrice(item.total)}</strong></td>
+        <td class="text-end">${deleteButton}</td>
       </tr>
     `;
   }).join('');
   
   // Update total amount
   document.getElementById('total-amount').textContent = formatPrice(totalAmount);
+}
+
+async function confirmDeleteItem(itemId) {
+  const confirmed = confirm('Are you sure you want to delete this item from the order?');
+  
+  if (!confirmed) {
+    return;
+  }
+  
+  try {
+    await OrderService.deleteItem(currentOrder.id, itemId);
+    
+    // Reload order details
+    await loadOrderDetails(currentOrder.id);
+    
+    alert('Item deleted successfully!');
+    
+  } catch (error) {
+    console.error('Error deleting item:', error);
+    alert('Failed to delete item. ' + (error.message || 'Please try again.'));
+  }
 }
 
 function getStatusBadge(status) {
@@ -161,8 +191,14 @@ async function seePayment() {
   }
   
   try {
-    // GET /payments/id - Get payment for this order
-    const payment = await PaymentService.getById(currentOrder.id);
+    const payments = await PaymentService.getAll();
+    
+    const payment = payments.find(p => p.order_id === currentOrder.id);
+    
+    if (!payment) {
+      alert('No payment found for this order');
+      return;
+    }
     
     // Redirect to payment view page
     window.location.href = `../payments/view.html?id=${payment.id}`;

@@ -164,6 +164,31 @@ public class OrderService {
 
         return order;
     }
+    public void deleteItemFromOrder(Long orderId, Long itemId) {
+        // Find order
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        if ("PAID".equals(order.getStatus())) {
+          throw new RuntimeException("Cannot delete items from a paid order.");
+        }
+        
+        if ("CANCELLED".equals(order.getStatus())) {
+          throw new RuntimeException("Cannot delete items from a cancelled order.");
+        }
+
+        // Find item
+        OrderItem item = orderItemRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Order item not found"));
+
+        // Check if item belongs to order
+        if (!item.getOrder().getId().equals(orderId)) {
+            throw new RuntimeException("Item does not belong to the specified order");
+        }
+
+        // Delete item
+        orderItemRepository.delete(item);
+    }
     @Transactional
     public Order cancelOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
@@ -179,6 +204,14 @@ public class OrderService {
         
         order.setStatus("CANCELLED");
         return orderRepository.save(order);
+    }
+
+    //Made the route but I won't apply on the frontend, since I don't know if it's a good practice to delete orders.
+    public void deleteOrder(Long id) {
+        if (!orderRepository.existsById(id)) {
+            throw new RuntimeException("Order with ID " + id + " not found");
+        }
+        orderRepository.deleteById(id);
     }
 
 }

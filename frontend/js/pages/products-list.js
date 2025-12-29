@@ -55,6 +55,28 @@ function filterProducts() {
   renderProducts();
 }
 
+async function handleDelete(productId, productName) {
+  const confirmed = confirm(`Are you sure you want to delete "${productName}"?\n\nThis action cannot be undone.`);
+  
+  if (!confirmed) {
+    return;
+  }
+
+  try {
+    await ProductService.delete(productId);
+    
+    allProducts = allProducts.filter(p => p.id !== productId);
+    
+    filterProducts();
+    
+    alert('Product deleted successfully!');
+    
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    alert('Error deleting product. Please try again.');
+  }
+}
+
 function renderProducts() {
   if (filteredProducts.length === 0) {
     productsContainer.innerHTML = '';
@@ -80,9 +102,23 @@ function renderProducts() {
             </div>
             <p class="card-text text-muted small">${Format.capitalize(product.category)}</p>
             <h4 class="text-primary mb-3">${formattedPrice}</h4>
-            ${product.active === 1 ? `
-            ` : '<button class="btn btn-secondary w-100" disabled>Unavailable</button>'}
+           <div class="d-flex gap-2">
+              <a 
+                href="edit.html?id=${product.id}" 
+                class="btn btn-outline-primary w-100"
+              >
+                ✏️ Edit
+              </a>
+
+              <button 
+                class="btn btn-danger w-100" 
+                onclick="handleDelete(${product.id}, '${product.name.replace(/'/g, "\\'")}')"
+              >
+                🗑️ Delete
+              </button>
+            </div>
           </div>
+
         </div>
       </div>
     `;

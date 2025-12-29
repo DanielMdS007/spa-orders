@@ -38,9 +38,7 @@
         public Product findById(Long id){
             return productRepository.findById(id).orElse(null); 
         }
-        /*
-        I wanted to add these methods but I think I will waste time since it's techinically not required for the evaluation
-        maybe later if I want to improve the project in the future
+
         public Product update(Product product){
             return productRepository.save(product);
         }
@@ -48,7 +46,6 @@
         public void delete(Long id){
             productRepository.deleteById(id);
         }
-        */
 
 
 
