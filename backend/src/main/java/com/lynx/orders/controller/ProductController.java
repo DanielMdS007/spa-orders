@@ -2,6 +2,8 @@ package com.lynx.orders.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,8 +42,10 @@ public class ProductController {
     
     //POST
     @PostMapping
-    public Product create(@RequestBody Product product){
-        return productService.create(product);
+    public ResponseEntity<Product> create(@RequestBody Product product){
+        Product saved = productService.create(product);
+        //maybe I will have to add this to every POST method to return 201 instead of 200
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
     
     /*NOT REQUIRED FOR THE EVALUATION

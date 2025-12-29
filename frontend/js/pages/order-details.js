@@ -123,12 +123,11 @@ function displayPaymentActions(status) {
   const paymentActionsDiv = document.getElementById('payment-actions');
   
   if (status === 'NEW') {
-    // Apenas cria o botão, não chama payOrder() automaticamente
     paymentActionsDiv.innerHTML = `
       <button class="btn btn-success w-100" style="background-color: #0813af; border: none;" onclick="payOrder()">
         💳 Pay Order
       </button>
-    `;
+    `;      
   } else if (status === 'PAID') {
     paymentActionsDiv.innerHTML = `
       <button class="btn btn-info w-100" style="background-color: #08af2cff; border: none;" onclick="seePayment()">

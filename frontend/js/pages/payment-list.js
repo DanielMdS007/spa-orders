@@ -2,7 +2,7 @@ let allPayments = [];
 let filteredPayments = [];
 
 const orderIdInput = document.getElementById('order-id-input');
-const statusFilter = document.getElementById('status-filter');
+const clearFiltersBtn = document.getElementById('clear-filters-btn');
 const paymentsContainer = document.getElementById('payments-container');
 const loadingDiv = document.getElementById('loading');
 const emptyState = document.getElementById('empty-state');
@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function setupEventListeners() {
   orderIdInput.addEventListener('input', filterPayments);
-  statusFilter.addEventListener('change', filterPayments);
+  if (clearFiltersBtn) {
+    clearFiltersBtn.addEventListener('click', clearFilters);
+  }
 }
 
 async function loadPayments() {
@@ -33,15 +35,18 @@ async function loadPayments() {
 
 function filterPayments() {
   const orderId = orderIdInput.value.trim();
-  const status = statusFilter.value;
 
   filteredPayments = allPayments.filter(payment => {
-    const matchesOrder = !orderId || payment.orderId.toString() === orderId;
-    const matchesStatus = !status || payment.status === status;
-    return matchesOrder && matchesStatus;
+    const matchesOrder = !orderId || payment.order_id.toString().includes(orderId);
+    return matchesOrder;
   });
 
   renderPayments();
+}
+
+function clearFilters() {
+  orderIdInput.value = '';
+  filterPayments();
 }
 
 function renderPayments() {
@@ -66,10 +71,13 @@ function renderPayments() {
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-2">
               <h5 class="card-title">Payment #${payment.id}</h5>
-              ${getStatusBadge(payment.status)}
+              <span class="badge bg-success">PAID</span>
             </div>
             <p class="card-text text-muted small mb-1">
-              <strong>Order ID:</strong> #${payment.orderId}
+              <strong>Order ID:</strong> #${payment.order_id}
+            </p>
+            <p class="card-text text-muted small mb-1">
+              <strong>Method:</strong> ${payment.method || 'N/A'}
             </p>
             <p class="card-text text-muted small mb-3">
               <strong>Paid At:</strong> ${formattedDate}
@@ -85,18 +93,6 @@ function renderPayments() {
       </div>
     `;
   }).join('');
-}
-
-function getStatusBadge(status) {
-  const statusColors = {
-    'PAID': 'bg-success',
-    'PENDING': 'bg-warning text-dark',
-    'REFUNDED': 'bg-info',
-    'CANCELLED': 'bg-danger'
-  };
-  
-  const color = statusColors[status] || 'bg-secondary';
-  return `<span class="badge ${color}">${status}</span>`;
 }
 
 function viewPaymentDetails(paymentId) {

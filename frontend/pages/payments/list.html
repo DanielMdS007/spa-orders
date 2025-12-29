@@ -32,7 +32,7 @@
             <a class="nav-link" href="../orders/list.html">🛒 Orders</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="list.html">💳 Payments</a>
+            <a class="nav-link active" href="../payments/list.html">💳 Payments</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../customers/list.html">Customers</a>
@@ -55,19 +55,12 @@
     <div class="card mb-4">
       <div class="card-body">
         <div class="row g-3">
-          <div class="col-md-4">
+          <div class="col-md-6">
             <label for="order-id-input" class="form-label">Order ID</label>
             <input type="number" class="form-control" id="order-id-input" placeholder="Filter by order ID...">
           </div>
-          <div class="col-md-4">
-            <label for="status-filter" class="form-label">Status</label>
-            <select class="form-select" id="status-filter">
-              <option value="">All statuses</option>
-              <option value="PAID">Paid</option>
-              <option value="PENDING">Pending</option>
-              <option value="REFUNDED">Refunded</option>
-              <option value="CANCELLED">Cancelled</option>
-            </select>
+          <div class="col-md-6 d-flex align-items-end">
+            <button id="clear-filters-btn" class="btn btn-secondary w-100">Clear Filters</button>
           </div>
         </div>
       </div>
@@ -89,7 +82,7 @@
     <!-- Empty State -->
     <div id="empty-state" class="text-center py-5" style="display: none;">
       <h3 class="mt-3">No payments found</h3>
-      <p class="text-muted">Try adjusting the filters.</p>
+      <p class="text-muted">Try adjusting the filters or add a new payment.</p>
     </div>
   </div>
 

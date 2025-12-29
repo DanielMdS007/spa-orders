@@ -33,8 +33,7 @@ function displayPaymentDetails(payment) {
   
   // Display payment information
   document.getElementById('payment-id').textContent = `#${payment.id}`;
-  document.getElementById('order-id').innerHTML = `<a href="../orders/details.html?id=${payment.orderId}">#${payment.orderId}</a>`;
-  document.getElementById('payment-status').innerHTML = getStatusBadge(payment.status);
+  document.getElementById('order-id').innerHTML = `<a href="../orders/details.html?id=${payment.order_id}">#${payment.order_id}</a>`;
   document.getElementById('paid-at').textContent = formatDateTime(payment.paidAt);
   document.getElementById('payment-amount').textContent = formatPrice(payment.amount_cents);
   

@@ -9,44 +9,44 @@
 
     @Service
     public class ProductService {
-        private final ProductRepository repository;
+        private final ProductRepository productRepository;
 
-        public ProductService(ProductRepository repository) {
-            this.repository = repository;
+        public ProductService(ProductRepository productRepository) {
+            this.productRepository = productRepository;
         }
 
         public List<Product> findAll(String category, Integer active) {
 
             if (category != null && active != null) {
-                return repository.findByCategoryAndActive(category, active);
+                return productRepository.findByCategoryAndActive(category, active);
             }
 
             if (category != null) {
-                return repository.findByCategory(category);
+                return productRepository.findByCategory(category);
             }
 
             if (active != null) {
-                return repository.findByActive(active);
+                return productRepository.findByActive(active);
             }
 
-            return repository.findAll();
+            return productRepository.findAll();
         }
         public Product create(Product product){
-            return repository.save(product);
+            return productRepository.save(product);
         }
 
         public Product findById(Long id){
-            return repository.findById(id).orElse(null); 
+            return productRepository.findById(id).orElse(null); 
         }
         /*
         I wanted to add these methods but I think I will waste time since it's techinically not required for the evaluation
         maybe later if I want to improve the project in the future
         public Product update(Product product){
-            return repository.save(product);
+            return productRepository.save(product);
         }
         
         public void delete(Long id){
-            repository.deleteById(id);
+            productRepository.deleteById(id);
         }
         */
 

@@ -1,100 +1,94 @@
-document.addEventListener('DOMContentLoaded', () => {
-  setupForm();
-  
-  const urlParams = new URLSearchParams(window.location.search);
-  const orderId = urlParams.get('orderId');
-  
-  if (orderId) {
-    document.getElementById('order-id').value = orderId;
-  }
+const form = document.getElementById('product-form');
+const submitBtn = document.getElementById('submit-btn');
+const submitText = document.getElementById('submit-text');
+const submitSpinner = document.getElementById('submit-spinner');
+
+const nameInput = document.getElementById('product-name');
+const categoryInput = document.getElementById('product-category');
+const priceInput = document.getElementById('product-price');
+const activeInput = document.getElementById('product-active');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  await createProduct();
 });
 
-function setupForm() {
-  const form = document.getElementById('payment-form');
-  form.addEventListener('submit', handleSubmit);
-}
-
-async function handleSubmit(event) {
-  event.preventDefault();
-  
-  const orderId = parseInt(document.getElementById('order-id').value);
-  const amountInReais = parseFloat(document.getElementById('amount').value);
-  const method = document.getElementById('method').value;
-  const notes = document.getElementById('notes').value;
-  
-  if (!orderId || isNaN(orderId)) {
-    alert('Please enter a valid Order ID');
-    return;
-  }
-  
-  if (isNaN(amountInReais) || amountInReais <= 0) {
-    alert('Please enter a valid amount greater than zero');
-    return;
-  }
-  
-  if (!method) {
-    alert('Please select a payment method');
-    return;
-  }
-  
-  const methodMap = {
-    'CREDIT_CARD': 'CARD',
-    'DEBIT_CARD': 'CARD',
-    'PIX': 'PIX',
-    'CASH': 'BOLETO',
-    'BANK_TRANSFER': 'BOLETO'
-  };
-  
-  const backendMethod = methodMap[method];
-  
-  if (!backendMethod) {
-    alert('Invalid payment method selected');
-    return;
-  }
-  
-  const amountInCents = Math.round(amountInReais * 100);
-  
-  const paymentData = {
-    orderId: orderId,
-    amountCents: amountInCents,
-    method: backendMethod,
-    paidAt: new Date().toISOString()
-  };
-  
-  if (notes && notes.trim()) {
-    paymentData.notes = notes.trim();
-  }
-  
+async function createProduct() {
   try {
-    console.log('Sending payment data:', paymentData);
-    console.log('Amount in reais:', amountInReais);
-    console.log('Amount in cents:', amountInCents);
+    setLoadingState(true);
+
+    const priceInReais = parseFloat(priceInput.value);
+    const priceInCents = Math.round(priceInReais * 100);
+
+    const productData = {
+      name: nameInput.value.trim(),
+      category: categoryInput.value,
+      price: priceInCents,
+      active: activeInput.checked ? 1 : 0
+    };
+
+    if (!validateProduct(productData, priceInReais)) {
+      return;
+    }
+
+    const response = await ProductService.create(productData);
+
+    alert('Product created successfully!');
+    window.location.href = 'list.html';
+
+  } catch ( error) {
+    console.error('Error creating product:', error);
     
-    const createdPayment = await PaymentService.create(paymentData);
+    let errorMessage = 'Error creating product. ';
     
-    console.log('Payment created:', createdPayment);
-    alert(`Payment #${createdPayment.id} created successfully!`);
-    
-    window.location.href = `view.html?id=${createdPayment.id}`;
-    
-  } catch (error) {
-    console.error('Full error:', error);
-    console.error('Error response:', error.response);
-    
-    let errorMessage = 'Error creating payment:\n\n';
-    
-    if (error.response && error.response.data) {
-      if (typeof error.response.data === 'string') {
-        errorMessage += error.response.data;
-      } else {
-        errorMessage += JSON.stringify(error.response.data, null, 2);
-      }
-    } else if (error.message) {
+    if (error.message) {
       errorMessage += error.message;
     } else {
-      errorMessage += 'Unknown error occurred';
+      errorMessage += 'Make sure the backend is running on http://localhost:8080';
     }
     
     alert(errorMessage);
+  } finally {
+    setLoadingState(false);
+  }
+}
+
+function validateProduct(product, priceInReais) {
+  if (!product.name || product.name.length < 3) {
+    alert('Product name must have at least 3 characters.');
+    nameInput.focus();
+    return false;
+  }
+
+  if (!product.category) {
+    alert('Please select a category.');
+    categoryInput.focus();
+    return false;
+  }
+
+  if (isNaN(priceInReais) || priceInReais <= 0) {
+    alert('Please enter a valid price greater than zero.');
+    priceInput.focus();
+    return false;
+  }
+
+  if (product.price <= 0) {
+    alert('Price in cents must be greater than zero.');
+    priceInput.focus();
+    return false;
+  }
+
+  return true;
+}
+
+function setLoadingState(isLoading) {
+  submitBtn.disabled = isLoading;
+  
+  if (isLoading) {
+    submitText.textContent = 'Creating...';
+    submitSpinner.style.display = 'inline-block';
+  } else {
+    submitText.textContent = 'Create Product';
+    submitSpinner.style.display = 'none';
   }
 }
