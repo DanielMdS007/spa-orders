@@ -4,18 +4,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lynx.orders.dto.CreateOrderRequestDTO;
 import com.lynx.orders.dto.OrderSummaryDTO;
 import com.lynx.orders.entity.Order;
-import com.lynx.orders.repository.OrderRepository;
 import com.lynx.orders.entity.OrderItem;
 import com.lynx.orders.entity.Product;
-import com.lynx.orders.repository.OrderItemRepository;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import com.lynx.orders.repository.CustomerRepository;
+import com.lynx.orders.repository.OrderItemRepository;
+import com.lynx.orders.repository.OrderRepository;
 import com.lynx.orders.repository.ProductRepository;
 
 @Service
@@ -34,7 +32,13 @@ public class OrderService {
     }
 
 
-    public List<OrderSummaryDTO> findAllSummary() {
+    public List<OrderSummaryDTO> findAllSummary(Integer customerId) {
+        if(customerId != null){
+            return orderRepository.findByCustomerId(customerId)
+            .stream()
+            .map(OrderSummaryDTO::new)
+            .toList();
+        }
         return orderRepository.findAll()
             .stream()
             .map(OrderSummaryDTO::new)
@@ -75,6 +79,14 @@ public class OrderService {
         // search for order
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        if ("PAID".equals(order.getStatus())) {
+          throw new RuntimeException("Cannot add items to a paid order.");
+        }
+        
+        if ("CANCELLED".equals(order.getStatus())) {
+          throw new RuntimeException("Cannot add items to a cancelled order.");
+        }
 
         // serach for product
         Product product = productRepository.findById(productId)
@@ -151,6 +163,22 @@ public class OrderService {
         }
 
         return order;
+    }
+    @Transactional
+    public Order cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order with ID " + orderId + " not found"));
+        
+        if ("PAID".equals(order.getStatus())) {
+            throw new RuntimeException("Cannot cancel a paid order.");
+        }
+        
+        if ("CANCELLED".equals(order.getStatus())) {
+            throw new RuntimeException("Order is already cancelled.");
+        }
+        
+        order.setStatus("CANCELLED");
+        return orderRepository.save(order);
     }
 
 }

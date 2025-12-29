@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Payment - SPA Orders</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #e67e22;">
+    <div class="container">
+      <a class="navbar-brand" href="../../index.html">
+        <strong>🛒 SPA Orders</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../products/list.html">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../orders/list.html">🛒 Orders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="list.html">💳 Payments</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../customers/list.html">Customers</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        
+        <!-- Header -->
+        <div class="mb-4">
+          <a href="list.html" class="btn btn-outline-secondary mb-2">
+            ← Back to Payments
+          </a>
+          <h1>Create New Payment</h1>
+          <p class="text-muted">Process a payment for an existing order</p>
+        </div>
+
+        <!-- Payment Form Card -->
+        <div class="card">
+          <div class="card-header" style="background-color: #0813af; color: white;">
+            <h5 class="mb-0">Payment Information</h5>
+          </div>
+          <div class="card-body">
+            <form id="payment-form">
+              
+              <!-- Order ID -->
+              <div class="mb-3">
+                <label for="order-id" class="form-label"><strong>Order ID *</strong></label>
+                <input type="number" class="form-control" id="order-id" required placeholder="Enter order ID">
+                <small class="text-muted">The order that this payment is for</small>
+              </div>
+
+              <!-- Amount -->
+              <div class="mb-3">
+                <label for="amount" class="form-label"><strong>Amount (R$) *</strong></label>
+                <input type="number" step="0.01" class="form-control" id="amount" required placeholder="10.00" min="0.01">
+                <small class="text-muted">Enter amount in reais (ex: 10.00 = R$ 10,00)</small>
+              </div>
+
+              <!-- Payment Method -->
+              <div class="mb-3">
+                <label for="method" class="form-label"><strong>Payment Method *</strong></label>
+                <select class="form-select" id="method" required>
+                  <option value="">Select method...</option>
+                  <option value="CREDIT_CARD">Credit Card</option>
+                  <option value="DEBIT_CARD">Debit Card</option>
+                  <option value="PIX">PIX</option>
+                  <option value="CASH">Cash</option>
+                  <option value="BANK_TRANSFER">Bank Transfer</option>
+                </select>
+              </div>
+
+              <!-- Notes -->
+              <div class="mb-3">
+                <label for="notes" class="form-label"><strong>Notes</strong></label>
+                <textarea class="form-control" id="notes" rows="3" placeholder="Additional notes about this payment..."></textarea>
+              </div>
+
+              <!-- Buttons -->
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary" style="background-color: #0813af; border: none;">
+                  💳 Create Payment
+                </button>
+                <a href="list.html" class="btn btn-outline-secondary">Cancel</a>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        <!-- Info Alert -->
+        <div class="alert alert-info mt-4" role="alert">
+          <strong>Note:</strong> Make sure the Order ID exists before creating a payment for it.
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Scripts -->
+  <script src="../../js/config/api-config.js"></script>
+  <script src="../../js/services/api-service.js"></script>
+  <script src="../../js/services/payment-service.js"></script>
+  <script src="../../js/utils/format.js"></script>
+  <script src="../../js/pages/payment-create.js"></script>
+</body>
+</html>

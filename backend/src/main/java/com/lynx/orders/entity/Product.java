@@ -24,7 +24,7 @@ public class Product {
     private String category;
 
     @Column(name = "price_cents", nullable = false)
-    private Double price;
+    private Integer price;
 
     @Column(name = "active", nullable = false)
     private int active = 1;//default 1
@@ -53,11 +53,11 @@ public class Product {
         this.category = category;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

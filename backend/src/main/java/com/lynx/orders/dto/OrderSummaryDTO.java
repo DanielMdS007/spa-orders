@@ -11,7 +11,7 @@ public class OrderSummaryDTO {
     private Long customerId;
     private String status;
     private LocalDateTime createdAt;
-    private Double total;
+    private Integer total;
 
     // Construtor
     public OrderSummaryDTO(Order order) {
@@ -20,7 +20,7 @@ public class OrderSummaryDTO {
         this.status = order.getStatus();
         this.createdAt = order.getCreatedAt();
         this.total = order.getItems().stream()
-                          .mapToDouble(item -> item.getUnitPrice() * item.getQuantity())
+                          .mapToInt(item -> item.getUnitPrice() * item.getQuantity())
                           .sum();
     }
 
@@ -56,11 +56,11 @@ public class OrderSummaryDTO {
         this.createdAt = createdAt;
     }
 
-    public Double getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 

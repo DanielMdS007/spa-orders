@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(120) NOT NULL,
     category VARCHAR(60) NOT NULL,
-    price_cents DECIMAL(10,2) NOT NULL CHECK (price_cents >= 0),
+    price_cents INTEGER NOT NULL CHECK (price_cents >= 0),
     active INTEGER NOT NULL DEFAULT 1
 );
 
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     order_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL CHECK (quantity > 0),
-    unit_price_cents DECIMAL(10,2) NOT NULL CHECK (unit_price_cents >= 0),
+    unit_price_cents INTEGER NOT NULL CHECK (unit_price_cents >= 0),
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS payments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     order_id INTEGER NOT NULL,
     method VARCHAR(20) NOT NULL, -- 'PIX', 'CARD', 'BOLETO'
-    amount_cents DECIMAL(10,2) NOT NULL CHECK (amount_cents >= 0),
+    amount_cents INTEGER NOT NULL CHECK (amount_cents >= 0),
     paid_at TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id)
 );

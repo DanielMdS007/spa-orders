@@ -35,12 +35,11 @@ public class OrderItem {
     private Integer quantity;
 
     @Column(name = "unit_price_cents", nullable= false)
-    private Double unitPrice;
+    private Integer unitPrice;
 
     @Transient
     @SuppressWarnings("unused")
-    private Double total;
-
+    private Integer total;
     public Long getId() {
         return id;
     }
@@ -66,18 +65,18 @@ public class OrderItem {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-    public Double getUnitPrice() {
+    public Integer getUnitPrice() {
         return unitPrice;
     }
-    public void setUnitPrice(Double unitPrice) {
+    public void setUnitPrice(Integer unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
-    public Double getTotal() {
-        if(quantity == null || unitPrice == null) return 0.0;
+    public Integer getTotal() {
+        if(quantity == null || unitPrice == null) return 0;
         return quantity * unitPrice;
     }
 

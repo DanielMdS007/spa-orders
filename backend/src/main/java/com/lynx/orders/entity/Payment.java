@@ -30,7 +30,7 @@ public class Payment {
     
     @Column(name = "amount_cents", nullable = false)
     @JsonProperty("amount_cents")
-    private Double amountCents;
+    private Integer amountCents;
 
     @Column(name = "paid_at", nullable = false)
     private LocalDateTime paidAt;
@@ -59,11 +59,11 @@ public class Payment {
         this.method = method;
     }
 
-    public Double getAmountCents() {
+    public Integer getAmountCents() {
         return amountCents;
     }
 
-    public void setAmountCents(Double amountCents) {
+    public void setAmountCents(Integer amountCents) {
         this.amountCents = amountCents;
     }
 

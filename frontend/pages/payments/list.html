@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payments - SPA Orders</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #e67e22;">
+    <div class="container">
+      <a class="navbar-brand" href="../../index.html">
+        <strong>🛒 SPA Orders</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../products/list.html">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../orders/list.html">🛒 Orders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="list.html">💳 Payments</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../customers/list.html">Customers</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>Payments History</h1>
+      <a href="create.html" class="btn btn-primary" style="background-color: #0813af; border: none;">
+        ➕ New Payment
+      </a>
+    </div>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label for="order-id-input" class="form-label">Order ID</label>
+            <input type="number" class="form-control" id="order-id-input" placeholder="Filter by order ID...">
+          </div>
+          <div class="col-md-4">
+            <label for="status-filter" class="form-label">Status</label>
+            <select class="form-select" id="status-filter">
+              <option value="">All statuses</option>
+              <option value="PAID">Paid</option>
+              <option value="PENDING">Pending</option>
+              <option value="REFUNDED">Refunded</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="text-center py-5" style="display: none;">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3">Loading payments...</p>
+    </div>
+
+    <!-- Payments Grid -->
+    <div id="payments-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <!-- Payments will be inserted here by JavaScript -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="text-center py-5" style="display: none;">
+      <h3 class="mt-3">No payments found</h3>
+      <p class="text-muted">Try adjusting the filters.</p>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Scripts -->
+  <script src="../../js/config/api-config.js"></script>
+  <script src="../../js/services/api-service.js"></script>
+  <script src="../../js/services/payment-service.js"></script>
+  <script src="../../js/utils/format.js"></script>
+  <script src="../../js/pages/payment-list.js"></script>
+</body>
+</html>
