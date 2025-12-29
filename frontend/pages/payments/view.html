@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Details - SPA Orders</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #e67e22;">
+    <div class="container">
+      <a class="navbar-brand" href="../../index.html">
+        <strong>🛒 SPA Orders</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../products/list.html">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../orders/list.html">🛒 Orders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="list.html">💳 Payments</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../customers/list.html">Customers</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container my-5">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <a href="list.html" class="btn btn-outline-secondary mb-2">
+          ← Back to Payments
+        </a>
+        <h1 id="page-title">Payment Details</h1>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3">Loading payment details...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" class="alert alert-danger" role="alert" style="display: none;">
+      <h4 class="alert-heading">Error!</h4>
+      <p id="error-message">Failed to load payment details.</p>
+      <hr>
+      <a href="list.html" class="btn btn-outline-danger">Back to Payments</a>
+    </div>
+
+    <!-- Payment Details Content -->
+    <div id="payment-content" style="display: none;">
+      
+      <!-- Payment Information Card -->
+      <div class="card mb-4">
+        <div class="card-header" style="background-color: #0813af; color: white;">
+          <h5 class="mb-0">Payment Information</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <p class="text-muted mb-1">Payment ID</p>
+              <h5 id="payment-id">-</h5>
+            </div>
+            <div class="col-md-3">
+              <p class="text-muted mb-1">Order ID</p>
+              <h5 id="order-id">-</h5>
+            </div>
+            <div class="col-md-3">
+              <p class="text-muted mb-1">Status</p>
+              <h5 id="payment-status">-</h5>
+            </div>
+            <div class="col-md-3">
+              <p class="text-muted mb-1">Paid At</p>
+              <h5 id="paid-at">-</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Amount Card -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Payment Amount</h4>
+            <h2 class="mb-0 text-primary" id="payment-amount">R$ 0,00</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info Card -->
+      <div class="card">
+        <div class="card-header" style="background-color: #0813af; color: white;">
+          <h5 class="mb-0">Additional Information</h5>
+        </div>
+        <div class="card-body" id="additional-info">
+          <p class="text-muted">No additional information available.</p>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-4 d-flex gap-2">
+        <a href="#" id="view-order-btn" class="btn btn-outline-primary">
+          View Related Order
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Scripts -->
+  <script src="../../js/config/api-config.js"></script>
+  <script src="../../js/services/api-service.js"></script>
+  <script src="../../js/services/payment-service.js"></script>
+  <script src="../../js/utils/format.js"></script>
+  <script src="../../js/pages/payment-view.js"></script>
+</body>
+</html>

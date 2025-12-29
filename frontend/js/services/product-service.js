@@ -2,7 +2,7 @@ const ProductService = {
     
   //GET
   async getAll(filters = {}) {
-    // Monta os parâmetros da URL
+
     const params = new URLSearchParams();
     
     if (filters.category) {
@@ -13,7 +13,6 @@ const ProductService = {
       params.append('active', filters.active);
     }
     
-    // Se tem parâmetros, adiciona ? na URL
     const queryString = params.toString();
     const path = queryString ? `/products?${queryString}` : '/products';
     
@@ -23,5 +22,9 @@ const ProductService = {
   //GET
   async getById(id) {
     return await ApiService.get(`/products/${id}`);
-  }
+  },
+  //POST
+  async create(product) {
+    return await ApiService.post('/products', product);
+  },
 };

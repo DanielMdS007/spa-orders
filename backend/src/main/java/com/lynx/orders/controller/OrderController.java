@@ -4,10 +4,12 @@ package com.lynx.orders.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lynx.orders.dto.CreateOrderRequestDTO;
@@ -27,8 +29,9 @@ public class OrderController {
     }
     //GET all orders
     @GetMapping
-    public List<OrderSummaryDTO> getAllOrders() {
-        return orderService.findAllSummary(); // resume without items
+    public List<OrderSummaryDTO> getAllOrders(@RequestParam(required = false) Integer customerId) {
+        return orderService.findAllSummary(customerId); 
+        //resume without items
     }
 
 
@@ -46,11 +49,14 @@ public class OrderController {
     }
 
     //POST order item
-    @PostMapping("/{Id}")
-    public OrderItem addOrderItem(@PathVariable Long Id, @RequestBody OrderItem request){
-        return orderService.addItemToOrder(Id, request.getProductId(), request.getQuantity());
+    @PostMapping("/{id}")
+    public OrderItem addOrderItem(@PathVariable Long id, @RequestBody OrderItem request){
+        return orderService.addItemToOrder(id, request.getProductId(), request.getQuantity());
     }
     
-    
+    @PatchMapping("/{id}/cancel")
+    public Order cancelOrder(@PathVariable Long id) {
+        return orderService.cancelOrder(id);
+    }
 
 }

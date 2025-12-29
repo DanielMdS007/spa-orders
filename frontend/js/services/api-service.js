@@ -27,5 +27,21 @@ const ApiService = {
       console.error('Erro na requisição POST:', error);
       throw error;
     }
+  },
+
+    async patch(endpoint, data = null) {
+    const options = {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' }
+    };
+    if (data) {
+      options.body = JSON.stringify(data);
+    }
+    const response = await fetch(`${API_CONFIG.baseURL}${endpoint}`, options);
+    if (!response.ok) throw new Error('Request failed');
+    return await response.json();
   }
+
+  
+
 };
