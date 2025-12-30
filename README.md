@@ -7,6 +7,11 @@ Project was made using HTML, CSS, JavaScript with Bootstrap in front-end, and Ja
 
 I would like to thank Lynx for the opportunity to participate in this technical evaluation process. I really enjoyed working on this project and reinforcing my skills.
 
+
+Also, to start the backend, open a integrated terminal on the backend folder and use this line in the terminal
+
+mvnw spring-boot:run
+
 Projects mission (translated to english by chatgpt)
 
 4 – Problem Overview
