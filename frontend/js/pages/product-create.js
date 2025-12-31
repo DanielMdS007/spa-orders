@@ -36,18 +36,9 @@ async function createProduct() {
     alert('Product created successfully!');
     window.location.href = 'list.html';
 
-  } catch ( error) {
+  } catch (error) {
     console.error('Error creating product:', error);
-    
-    let errorMessage = 'Error creating product. ';
-    
-    if (error.message) {
-      errorMessage += error.message;
-    } else {
-      errorMessage += 'Make sure the backend is running on http://localhost:8080';
-    }
-    
-    alert(errorMessage);
+    alert('Error creating product: ' + error.message);
   } finally {
     setLoadingState(false);
   }

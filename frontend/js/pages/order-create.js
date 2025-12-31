@@ -24,7 +24,6 @@ async function loadProducts() {
   try {
     showLoading();
     
-    // Get all active products
     allProducts = await ProductService.getAll({ active: 1 });
     filteredProducts = [...allProducts];
     
@@ -32,7 +31,7 @@ async function loadProducts() {
     
   } catch (error) {
     console.error('Error loading products:', error);
-    alert('Error loading products. Make sure the backend is running.');
+    alert('Error loading products: ' + error.message);
   } finally {
     hideLoading();
   }
@@ -215,7 +214,7 @@ async function createOrder() {
     window.location.href = `view.html?id=${createdOrder.id}`;
   } catch (error) {
     console.error('Error creating order:', error);
-    alert('Error creating order. Please check if all products are active and try again.');
+    alert('Error creating order: ' + error.message);
   }
 }
 

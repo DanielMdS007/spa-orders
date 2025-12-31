@@ -13,6 +13,7 @@ const ApiService = {
     }
   },
 
+//Api service with improved error handling and logging on post
   async post(path, data) {
     try {
       console.log('POST Request to:', API_CONFIG.baseURL + path);
@@ -32,16 +33,28 @@ const ApiService = {
         console.error('Error response:', errorText);
         throw new Error(`HTTP Error ${response.status}: ${errorText}`);
       }
+      //That was the main issue, handling 204 no content responses
+      if (response.status === 204) {
+        return { success: true };
+      }
       
       const text = await response.text();
       console.log('Response text:', text);
       
-      return text ? JSON.parse(text) : { success: true };
+      if (!text || text.trim() === '') {
+        return { success: true };
+      }
+      
+      try {
+        return JSON.parse(text);
+      } catch (parseError) {
+        console.warn('Could not parse response as JSON:', text);
+        return { success: true, raw: text };
+      }
       
     } catch (error) {
       console.error('Error in POST request:', error);
       
-      // Handle CORS errors specifically
       if (error.message === 'Failed to fetch') {
         throw new Error('Cannot connect to server. Make sure the backend is running on http://localhost:8080 and CORS is configured.');
       }

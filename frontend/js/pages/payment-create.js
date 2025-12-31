@@ -59,10 +59,11 @@ async function handleSubmit(event) {
     paid_at: new Date().toISOString()
   };
   
+  const submitBtn = event.target.querySelector('button[type="submit"]');
+  
   try {
     console.log('Sending payment data:', paymentData);
     
-    const submitBtn = event.target.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Processing...';
     
@@ -75,25 +76,9 @@ async function handleSubmit(event) {
     
   } catch (error) {
     console.error('Full error:', error);
-    console.error('Error response:', error.response);
     
-    let errorMessage = 'Error creating payment:\n\n';
+    alert('Error creating payment: ' + error.message);
     
-    if (error.response && error.response.data) {
-      if (typeof error.response.data === 'string') {
-        errorMessage += error.response.data;
-      } else {
-        errorMessage += JSON.stringify(error.response.data, null, 2);
-      }
-    } else if (error.message) {
-      errorMessage += error.message;
-    } else {
-      errorMessage += 'Unknown error occurred';
-    }
-    
-    alert(errorMessage);
-    
-    const submitBtn = event.target.querySelector('button[type="submit"]');
     submitBtn.disabled = false;
     submitBtn.textContent = '💳 Create Payment';
   }
